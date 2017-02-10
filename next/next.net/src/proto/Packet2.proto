@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "next.net.netty.test.proto";
+option java_outer_classname = "Packet2Wapper";
+option csharp_namespace = "next.client.proto";
+
+message Packet2
+{
+    string name = 1;
+    string message = 2;
+}

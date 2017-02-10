@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_package = "next.net.netty.test.proto";
+option java_outer_classname = "Packet1Wapper";
+option csharp_namespace = "next.client.proto";
+
+message Packet1
+{
+    int32 playerId = 1;
+    int32 money = 2;
+    int64 time = 4;
+    bool vip = 3;
+}

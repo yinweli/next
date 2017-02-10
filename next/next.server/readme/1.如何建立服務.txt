@@ -1,0 +1,35 @@
+﻿建立服務類別, 服務類別名稱與package原則參看 [4.服務的命名原則] 與 [5.服務的package原則]
+建立設定類別, 設定類別名稱與package原則參看 [4.服務的命名原則] 與 [5.服務的package原則]
+如果服務類別需要讀取設定檔, 則要加入標註 @ServiceConfigClass
+    例如:
+        @ServiceConfigClass(configClass = ScheduledConfig.class)
+        public class ScheduledService
+        {
+            ...
+        }
+        
+如果服務類別需要執行啟動程序, 則要加入標註 @ServiceStart, 同時要在服務類別中加入啟動函式
+    例如:
+        @ServiceStart
+        public class ScheduledService
+        {
+            public static void start()
+            {
+                ...
+            }
+        }
+        
+如果服務類別需要執行結束程序, 則要加入標註 @ServiceFinish, 同時要在服務類別中加入結束函式
+    例如:
+        @ServiceFinish
+        public class ScheduledService
+        {
+            public static void finish()
+            {
+                ...
+            }
+        }
+        
+把建立好的服務加入到管理器中
+    例如:
+        ServiceManager.add(ScheduledService.class);
