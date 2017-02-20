@@ -12,6 +12,15 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
+/**
+ * <pre>
+ * 排程類別
+ * 
+ * 可以利用此類別加入需要定時定期執行的工作
+ * </pre>
+ * 
+ * @author yinweli
+ */
 public class Scheduled
 {
     private static class ScheduledWapper implements Runnable

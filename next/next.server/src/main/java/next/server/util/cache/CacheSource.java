@@ -1,5 +1,14 @@
 package next.server.util.cache;
 
+/**
+ * <pre>
+ * 快取來源類別
+ * </pre>
+ *
+ * @param <K> 索引型態
+ * @param <D> 資料型態
+ * @author yinweli
+ */
 public interface CacheSource<K, D>
 {
     /**

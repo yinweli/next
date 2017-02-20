@@ -10,6 +10,20 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
+/**
+ * <pre>
+ * 快取類別
+ * 
+ * 會自己排程檢查資料是否過期了, 並且將之儲存移除的類別
+ * 
+ * 使用前要先設定
+ * Cache.cacheScheduled
+ * </pre>
+ *
+ * @param <K> 索引型態
+ * @param <D> 資料型態
+ * @author yinweli
+ */
 public class Cache<K, D>
 {
     public interface CacheScheduled

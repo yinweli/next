@@ -27,6 +27,7 @@ import com.google.gson.JsonObject;
  * 以google gson為基礎的封包處理類別
  * 
  * > 封包格式
+ * <code>
  * jsonCode:
  * {
  *     "type":[ <-- 存放封包名稱的列表
@@ -40,6 +41,7 @@ import com.google.gson.JsonObject;
  *         ...
  *     ]
  * }
+ * </code>
  * 
  * > 封包類別
  * 封包類別只要是單純合法的java類別即可, 但是注意封包成員最好別用Map系列容器

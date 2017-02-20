@@ -8,6 +8,16 @@ import java.net.InetSocketAddress;
 
 import next.net.netty.handler.BaseHandler;
 
+/**
+ * <pre>
+ * 連線類別
+ * 
+ * 當客戶端連到伺服器時, 伺服器就會產生此物件來管理這條連線
+ * 這個物件可以被留下, 但是要注意偵測斷線事件以及使用屬性功能來管理已經被斷線的連線物件
+ * </pre>
+ * 
+ * @author yinweli
+ */
 public class Connection
 {
     /** 封包處理物件 */

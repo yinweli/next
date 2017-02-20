@@ -8,9 +8,11 @@ import next.net.netty.connection.Connection;
  * 基礎封包處理類別
  * 使用者需要自行處理封包的編\解碼
  * 如果想要實作出各種封包協議的處理類別, 都必須繼承此類別, 並最少實作出以下函式
- *     public abstract void setCoder(SocketChannel soc) throws Exception;
- *     public abstract void recv(Connection connection, Object obj) throws Exception;
- *     public abstract Object send(Object obj) throws Exception;
+ * <code>
+ * public abstract void setCoder(SocketChannel soc) throws Exception;
+ * public abstract void recv(Connection connection, Object obj) throws Exception;
+ * public abstract Object send(Object obj) throws Exception;
+ * </code>
  * 
  * 實做時要注意, 此類別內的函式必須要注意執行緒安全
  * </pre>

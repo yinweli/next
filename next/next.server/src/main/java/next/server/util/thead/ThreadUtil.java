@@ -1,5 +1,12 @@
 package next.server.util.thead;
 
+/**
+ * <pre>
+ * 執行緒工具類別
+ * </pre>
+ * 
+ * @author yinweli
+ */
 public class ThreadUtil
 {
     /**

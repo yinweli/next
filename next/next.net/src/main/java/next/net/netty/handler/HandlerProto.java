@@ -28,6 +28,7 @@ import com.google.protobuf.MessageLite;
  * 另外以一個int32的列表, 名稱為type的成員來指示封包使用的proto的編號, 此type成員的封包編號必須為1
  * 核心proto內各個子proto的封包編號不可重複
  * messageCode(google protobuf 3.0.0):
+ * <code>
  * message Proto
  * {
  *     repeated int32 type = 1; // 封包編號, 編號內容為的子項目proto的編號列表
@@ -37,6 +38,7 @@ import com.google.protobuf.MessageLite;
  *     Data3 Data3 = 103; // proto類別
  *     Data4 Data4 = 104; // proto類別
  * }
+ * </code>
  * 
  * > 封包類別
  * 以google protobuf 3.0.0的編譯工具編譯出來即可

@@ -8,6 +8,13 @@ import java.util.Properties;
 
 import next.server.util.configuration.ConfigurableProcessor;
 
+/**
+ * <pre>
+ * 設定檔工具類別
+ * </pre>
+ * 
+ * @author yinweli
+ */
 public class ConfigUtil
 {
     /**
