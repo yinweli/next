@@ -9,5 +9,5 @@ public class MainConfig
     public static String configPath = "config/system";
     
     /** 設定檔副檔名 */
-    public static String configExt = ".config";
+    public static String configExt = ".properties";
 }
