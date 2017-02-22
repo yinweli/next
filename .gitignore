@@ -1,5 +1,4 @@
 /next/.metadata
-/next/RemoteSystemsTempFiles
 /next/next.client.unity/Assembly-CSharp-vs.csproj
 /next/next.client.unity/Assembly-CSharp.csproj
 /next/next.client.unity/Library
@@ -26,8 +25,10 @@
 /next/next.server/out
 /next/next.template/bin
 /next/next.template/obj
+/next/RemoteSystemsTempFiles
 /Server/.metadata
 /Simple/.metadata
+/Simple/RemoteSystemsTempFiles
 /Simple/SimpleClient/bin
 /Simple/SimpleClient/obj
 /Simple/SimpleServer/.classpath
