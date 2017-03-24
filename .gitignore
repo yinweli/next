@@ -23,6 +23,7 @@
 /next/next.server/bin
 /next/next.server/build
 /next/next.server/out
+/next/next.template/.vs
 /next/next.template/bin
 /next/next.template/obj
 /next/RemoteSystemsTempFiles
