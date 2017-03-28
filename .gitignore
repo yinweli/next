@@ -30,6 +30,7 @@
 /Server/.metadata
 /Simple/.metadata
 /Simple/RemoteSystemsTempFiles
+/Simple/SimpleClient/.vs
 /Simple/SimpleClient/bin
 /Simple/SimpleClient/obj
 /Simple/SimpleServer/.classpath

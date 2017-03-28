@@ -19,7 +19,8 @@ namespace SimpleClient
 
                 if (reportCount >= REPORT_COUNT)
                 {
-                    Console.WriteLine(String.Format("passTime={0}, avgTime={1}", passTime, passTime / reportCount));
+                    Console.WriteLine(String.Format("{0} count={1}, avgTime={2}",
+                        DateTime.Now, reportCount, passTime / reportCount));
                     passTime = 0;
                     reportCount = 0;
                 }//if
