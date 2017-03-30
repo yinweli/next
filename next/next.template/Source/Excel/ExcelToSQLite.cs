@@ -46,7 +46,7 @@ namespace next.template
             }
         }
 
-        protected override bool read(SettingGlobal settingGlobal, SettingDetail settingDetail, List<string> fields, List<List<string>> datas)
+        protected override bool read(SettingGlobal settingGlobal, SettingDetail settingDetail, List<string> notes, List<string> fields, List<List<string>> datas)
         {
             if (settingGlobal == null)
                 return Output.outputError(settingDetail.ToString(), "setting global null");

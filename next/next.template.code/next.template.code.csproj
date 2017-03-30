@@ -48,12 +48,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Define.cs" />
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\_Core\AutoStopWatch.cs" />
+    <Compile Include="Source\_Core\ExceptionExtensions.cs" />
+    <Compile Include="Source\_Core\Output.cs" />
+    <Compile Include="Source\_Core\Setting.cs" />
+    <Compile Include="Source\_Core\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="設定檔案範本\setting.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -42,10 +42,11 @@ namespace next.template
                             return Output.outputError(settingDetail.ToString(), "sheet column empty");
 
                         int countOfDataRow = Math.Max(Util.getExcelRowCount(excelWorkSheet) - Define.LINE_FIELD, 0);
+                        List<string> notes = Util.getExcelRows(excelWorkSheet, Define.LINE_NOTE);
                         List<string> fields = Util.getExcelRows(excelWorkSheet, Define.LINE_FIELD);
                         List<List<string>> datas = Enumerable.Range(Define.LINE_DATA, countOfDataRow).Select(itor => Util.getExcelRows(excelWorkSheet, itor, fields.Count)).ToList();
 
-                        if (read(settingGlobal, settingDetail, fields, datas) == false)
+                        if (read(settingGlobal, settingDetail, notes, fields, datas) == false)
                             return Output.outputError(settingDetail.ToString(), "read failed");
                     }//using
                 }
@@ -63,9 +64,10 @@ namespace next.template
         /// </summary>
         /// <param name="settingGlobal">全域設定物件</param>
         /// <param name="settingDetail">細節設定物件</param>
+        /// <param name="notes">註解列表</param>
         /// <param name="fields">欄位列表</param>
         /// <param name="datas">資料列表</param>
         /// <returns>true表示成功, false則否</returns>
-        protected abstract bool read(SettingGlobal settingGlobal, SettingDetail settingDetail, List<string> fields, List<List<string>> datas);
+        protected abstract bool read(SettingGlobal settingGlobal, SettingDetail settingDetail, List<string> notes, List<string> fields, List<List<string>> datas);
     }
 }
