@@ -23,6 +23,9 @@
 /next/next.server/bin
 /next/next.server/build
 /next/next.server/out
+/next/next.template.code/.vs
+/next/next.template.code/bin
+/next/next.template.code/obj
 /next/next.template/.vs
 /next/next.template/bin
 /next/next.template/obj
