@@ -2,7 +2,7 @@
 建立設定類別, 設定類別名稱與package原則參看 [4.服務的命名原則] 與 [5.服務的package原則]
 如果服務類別需要讀取設定檔, 則要加入標註 @ServiceConfigClass
     例如:
-        @ServiceConfigClass(configClass = ScheduledConfig.class)
+        @ServiceConfig(configClass = ScheduledConfig.class)
         public class ScheduledService
         {
             ...
