@@ -8,7 +8,6 @@ import next.server.util.service.ServiceConfig;
 import next.server.util.service.ServiceFinish;
 import next.server.util.service.ServiceStart;
 import next.server.util.thead.ThreadUtil;
-import service.scheduled.config.ScheduledConfig;
 
 @ServiceConfig(configClass = ScheduledConfig.class)
 @ServiceStart

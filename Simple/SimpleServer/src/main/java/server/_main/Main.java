@@ -4,7 +4,6 @@ import next.server.service.ServiceManager;
 
 import org.apache.log4j.PropertyConfigurator;
 
-import server._main.config.MainConfig;
 import server.listener.client.ListenerClient;
 import service.scheduled.ScheduledService;
 import service.simple.SimpleService;

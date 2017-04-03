@@ -1,4 +1,4 @@
-package server.listener.client.config;
+package server.listener.client;
 
 import next.server.util.configuration.Property;
 

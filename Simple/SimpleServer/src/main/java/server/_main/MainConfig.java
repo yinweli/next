@@ -1,4 +1,4 @@
-package server._main.config;
+package server._main;
 
 public class MainConfig
 {

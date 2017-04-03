@@ -1,4 +1,4 @@
-package service.scheduled.config;
+package service.scheduled;
 
 import next.server.util.configuration.Property;
 
