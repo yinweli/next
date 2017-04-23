@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.log4j.Logger;
+
 import next.server.util.config.ConfigUtil;
 import next.server.util.service.ServiceUtil;
-
-import org.apache.log4j.Logger;
 
 /**
  * <pre>
@@ -108,7 +108,7 @@ public class ServiceManager
             }
             else
                 log.info(String.format("%s:ignore load config", itor.getSimpleName()));
-        }//for
+        } //for
         
         // 啟動服務
         for (Class<?> itor : services)
@@ -122,12 +122,12 @@ public class ServiceManager
                 }
                 catch (Exception e)
                 {
-                    log.warn(String.format("%s:initialize failed", itor.getSimpleName()));
+                    log.warn(String.format("%s:initialize failed", itor.getSimpleName()), e);
                 }
             }
             else
                 log.info(String.format("%s:ignore initialize", itor.getSimpleName()));
-        }//for
+        } //for
     }
     
     /**
@@ -153,11 +153,11 @@ public class ServiceManager
                 }
                 catch (Exception e)
                 {
-                    log.warn(String.format("%s:finish failed", clazz.getSimpleName()));
+                    log.warn(String.format("%s:finish failed", clazz.getSimpleName()), e);
                 }
             }
             else
                 log.info(String.format("%s:ignore finish", clazz.getSimpleName()));
-        }//while
+        } //while
     }
 }

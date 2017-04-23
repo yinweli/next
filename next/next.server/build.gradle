@@ -1,17 +1,18 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
-version = '1.0'
+sourceCompatibility = 1.8
+version = '1.01'
+
+repositories{
+    mavenCentral()
+}
 
 dependencies{
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
     compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.0.0'
     compile group: 'io.netty', name: 'netty-all', version: '4.1.5.Final'
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
-}
-
-repositories{
-    mavenCentral()
 }
 
 tasks.withType(JavaCompile){

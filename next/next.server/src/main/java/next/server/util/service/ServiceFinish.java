@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * <pre>
- * ¼Ğµù:«ü©wªA°È±a¦³µ²§ô¨ç¦¡
+ * æ¨™è¨»:æŒ‡å®šæœå‹™å¸¶æœ‰çµæŸå‡½å¼
  * </pre>
  * 
  * @author yinweli
