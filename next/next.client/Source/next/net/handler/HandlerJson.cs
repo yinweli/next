@@ -166,37 +166,47 @@ namespace next.net
                 {
                     buffer.push(data, length); // 將收到的數據加到緩衝區的最後面
 
-                    CodedInputStream inputStream = new CodedInputStream(buffer.Data);
-                    int jsonLength = inputStream.ReadInt32(); // 取得json長度
-                    int headLength = (int)inputStream.Position;
-
-                    // 如果緩衝區儲存的數據未超過json長度, 表示json還沒接收完畢
-                    if (jsonLength > (buffer.Length - (int)inputStream.Position))
-                        return;
-
-                    byte[] temp = new byte[jsonLength];
-
-                    Array.Copy(buffer.Data, (int)inputStream.Position, temp, 0, jsonLength);
-                    buffer.pop(jsonLength + headLength); // 把讀取過的資料刪除
-
-                    CorePacket corePacket = jsonInterface.toObject<CorePacket>(Encoding.UTF8.GetString(temp)); // 解析核心封包物件
-
-                    if (corePacket == null)
-                        throw new Exception("parse failed");
-
-                    for (int i = 0, max = corePacket.types.Count; i < max; ++i)
+                    while (true)
                     {
-                        string packetName = corePacket.types[i];
-                        string packetData = corePacket.datas[i];
+                        if (buffer.Length <= 0)
+                            return;
 
-                        // 取得接收者物件
-                        ReceiverBase receiver = null;
+                        CodedInputStream inputStream = new CodedInputStream(buffer.Data);
 
-                        if (receivers.TryGetValue(packetName, out receiver) == false || receiver == null)
-                            throw new Exception("receiver not found(" + packetName + ")");
+                        if (buffer.Length < inputStream.RecursionLimit)
+                            return;
 
-                        receiver.recv(jsonInterface, packetData); // 接收處理
-                    }//for
+                        int jsonLength = inputStream.ReadInt32(); // 取得json長度
+                        int headLength = (int)inputStream.Position;
+
+                        // 如果緩衝區儲存的數據未超過json長度, 表示json還沒接收完畢
+                        if (jsonLength > (buffer.Length - (int)inputStream.Position))
+                            return;
+
+                        byte[] temp = new byte[jsonLength];
+
+                        Array.Copy(buffer.Data, (int)inputStream.Position, temp, 0, jsonLength);
+                        buffer.pop(jsonLength + headLength); // 把讀取過的資料刪除
+
+                        CorePacket corePacket = jsonInterface.toObject<CorePacket>(Encoding.UTF8.GetString(temp)); // 解析核心封包物件
+
+                        if (corePacket == null)
+                            throw new Exception("parse failed");
+
+                        for (int i = 0, max = corePacket.types.Count; i < max; ++i)
+                        {
+                            string packetName = corePacket.types[i];
+                            string packetData = corePacket.datas[i];
+
+                            // 取得接收者物件
+                            ReceiverBase receiver = null;
+
+                            if (receivers.TryGetValue(packetName, out receiver) == false || receiver == null)
+                                throw new Exception("receiver not found(" + packetName + ")");
+
+                            receiver.recv(jsonInterface, packetData); // 接收處理
+                        }//for
+                    }//while
                 }//try
                 catch (Exception e)
                 {
