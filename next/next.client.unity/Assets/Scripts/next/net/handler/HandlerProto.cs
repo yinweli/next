@@ -98,10 +98,6 @@ namespace next.net
                             return;
 
                         CodedInputStream inputStream = new CodedInputStream(buffer.Data, 0, buffer.Length);
-
-                        if (buffer.Length < inputStream.RecursionLimit)
-                            return;
-
                         int protoLength = inputStream.ReadInt32(); // 取得proto長度
                         int headLength = (int)inputStream.Position;
 

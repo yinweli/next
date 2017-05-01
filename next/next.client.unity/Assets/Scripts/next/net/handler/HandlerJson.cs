@@ -172,10 +172,6 @@ namespace next.net
                             return;
 
                         CodedInputStream inputStream = new CodedInputStream(buffer.Data);
-
-                        if (buffer.Length < inputStream.RecursionLimit)
-                            return;
-
                         int jsonLength = inputStream.ReadInt32(); // 取得json長度
                         int headLength = (int)inputStream.Position;
 
