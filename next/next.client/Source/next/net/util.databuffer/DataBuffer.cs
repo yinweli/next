@@ -89,7 +89,7 @@ namespace next.net
             expandTemp(length);
 
             if (length > 0)
-                Array.Copy(data, 0, temp, 0, length);
+                Array.Copy(data, 0, temp, 0, data.Length);
 
             data = new byte[length];
 
