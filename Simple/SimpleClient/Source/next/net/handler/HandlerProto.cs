@@ -92,55 +92,65 @@ namespace next.net
                 {
                     buffer.push(data, length); // 將收到的數據加到緩衝區的最後面
 
-                    CodedInputStream inputStream = new CodedInputStream(buffer.Data, 0, buffer.Length);
-                    int protoLength = inputStream.ReadInt32(); // 取得proto長度
-                    int headLength = (int)inputStream.Position;
-
-                    // 如果緩衝區儲存的數據未超過proto長度, 表示proto還沒接收完畢
-                    if (protoLength > (buffer.Length - (int)inputStream.Position))
-                        return;
-
-                    byte[] temp = new byte[protoLength];
-
-                    Array.Copy(buffer.Data, (int)inputStream.Position, temp, 0, protoLength);
-                    buffer.pop(protoLength + headLength); // 把讀取過的資料刪除
-
-                    TProtoCore protoCore = new MessageParser<TProtoCore>(() => new TProtoCore()).ParseFrom(temp); // 解析核心proto物件
-
-                    // 取得型態欄位物件
-                    FieldDescriptor fieldType = protoCore.Descriptor.FindFieldByNumber(FIELD_TYPE);
-
-                    if (fieldType == null)
-                        throw new Exception("type not found");
-
-                    // 取得型態列表
-                    RepeatedField<int> types = (RepeatedField<int>)fieldType.Accessor.GetValue(protoCore);
-
-                    if (types == null)
-                        throw new Exception("get type failed");
-
-                    foreach (int itor in types)
+                    while (true)
                     {
-                        // 取得資料欄位物件
-                        FieldDescriptor fieldData = protoCore.Descriptor.FindFieldByNumber(itor);
+                        if (buffer.Length <= 0)
+                            return;
 
-                        if (fieldData == null)
-                            throw new Exception("data not found(" + itor + ")");
+                        CodedInputStream inputStream = new CodedInputStream(buffer.Data, 0, buffer.Length);
 
-                        // 取得封包物件
-                        System.Object packet = fieldData.Accessor.GetValue(protoCore);
+                        if (buffer.Length < inputStream.RecursionLimit)
+                            return;
 
-                        if (packet == null)
-                            throw new Exception("get data failed(" + itor + ")");
+                        int protoLength = inputStream.ReadInt32(); // 取得proto長度
+                        int headLength = (int)inputStream.Position;
 
-                        // 取得封包處理委派
-                        Handler handler = null;
+                        // 如果緩衝區儲存的數據未超過proto長度, 表示proto還沒接收完畢
+                        if (protoLength > (buffer.Length - (int)inputStream.Position))
+                            return;
 
-                        if (receivers.TryGetValue(itor, out handler) == false || handler == null)
-                            throw new Exception("receiver not found(" + itor + ")");
+                        byte[] temp = new byte[protoLength];
 
-                        handler(packet);
-                    }//for
+                        Array.Copy(buffer.Data, (int)inputStream.Position, temp, 0, protoLength);
+                        buffer.pop(protoLength + headLength); // 把讀取過的資料刪除
+
+                        TProtoCore protoCore = new MessageParser<TProtoCore>(() => new TProtoCore()).ParseFrom(temp); // 解析核心proto物件
+
+                        // 取得型態欄位物件
+                        FieldDescriptor fieldType = protoCore.Descriptor.FindFieldByNumber(FIELD_TYPE);
+
+                        if (fieldType == null)
+                            throw new Exception("type not found");
+
+                        // 取得型態列表
+                        RepeatedField<int> types = (RepeatedField<int>)fieldType.Accessor.GetValue(protoCore);
+
+                        if (types == null)
+                            throw new Exception("get type failed");
+
+                        foreach (int itor in types)
+                        {
+                            // 取得資料欄位物件
+                            FieldDescriptor fieldData = protoCore.Descriptor.FindFieldByNumber(itor);
+
+                            if (fieldData == null)
+                                throw new Exception("data not found(" + itor + ")");
+
+                            // 取得封包物件
+                            System.Object packet = fieldData.Accessor.GetValue(protoCore);
+
+                            if (packet == null)
+                                throw new Exception("get data failed(" + itor + ")");
+
+                            // 取得封包處理委派
+                            Handler handler = null;
+
+                            if (receivers.TryGetValue(itor, out handler) == false || handler == null)
+                                throw new Exception("receiver not found(" + itor + ")");
+
+                            handler(packet);
+                        }//for
+                    }//while
                 }//try
                 catch (Exception e)
                 {
