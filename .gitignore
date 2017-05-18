@@ -22,6 +22,8 @@ sysinfo.txt
 
 /next/.metadata
 /next/.recommenders
+/next/next.client.dll/bin
+/next/next.client.dll/obj
 /next/next.client.unity/Assembly-CSharp-vs.csproj
 /next/next.client.unity/Assembly-CSharp.csproj
 /next/next.client.unity/Library
