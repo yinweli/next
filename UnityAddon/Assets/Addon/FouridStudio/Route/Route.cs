@@ -5,7 +5,7 @@ namespace FouridStudio
     /// <summary>
     /// 資料路徑類別
     /// </summary>
-    public class DataRoute
+    public class Route
     {
         /// <summary>
         /// StreamAssets路徑
