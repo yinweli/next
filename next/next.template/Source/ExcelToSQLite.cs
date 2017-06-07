@@ -4,19 +4,6 @@ using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 
-public class SettingSQLite : SettingItem
-{
-    /// <summary>
-    /// 目標資料庫名稱
-    /// </summary>
-    public string targetDatabase = "";
-
-    /// <summary>
-    /// 目標資料表名稱
-    /// </summary>
-    public string targetTable = "";
-}
-
 public sealed class ExcelToSQLite : ExcelExport
 {
     private class Field
@@ -70,7 +57,7 @@ public sealed class ExcelToSQLite : ExcelExport
     /// <summary>
     /// SQLite設定物件
     /// </summary>
-    private SettingSQLite settingSQLite = null;
+    private SettingItem settingItem = null;
 
     /// <summary>
     /// 資料表欄位列表
@@ -84,9 +71,9 @@ public sealed class ExcelToSQLite : ExcelExport
 
     protected override bool readField(List<string> notes, List<string> fields)
     {
-        settingSQLite = SettingItem as SettingSQLite;
+        settingItem = SettingItem as SettingItem;
 
-        if (settingSQLite == null)
+        if (settingItem == null)
             return Output.outputError(SettingItem.ToString(), "setting item fromat error");
 
         tableFields = fields.Select(itor => Field.parse(itor)).ToList();
@@ -97,7 +84,7 @@ public sealed class ExcelToSQLite : ExcelExport
         if (tableFields.Any(itor => itor == null))
             return Output.outputError(SettingItem.ToString(), "fields error");
 
-        string targetFilePath = Path.Combine(SettingPath.targetPath, settingSQLite.targetDatabase);
+        string targetFilePath = Path.Combine(SettingPath.targetPath, settingItem.targetDatabase) + ".db";
 
         if (File.Exists(targetFilePath) == false)
             SQLiteConnection.CreateFile(targetFilePath);
@@ -110,7 +97,7 @@ public sealed class ExcelToSQLite : ExcelExport
         {
             using (SQLiteCommand sqliteCommand = sqliteConnection.CreateCommand())
             {
-                sqliteCommand.CommandText = "DROP TABLE IF EXISTS " + settingSQLite.targetTable;
+                sqliteCommand.CommandText = "DROP TABLE IF EXISTS " + settingItem.targetTable;
                 sqliteCommand.ExecuteNonQuery();
             }//using
         }
@@ -144,9 +131,9 @@ public sealed class ExcelToSQLite : ExcelExport
                 }//for
 
                 if (primaryKeySyntax.Length > 0)
-                    sqliteCommand.CommandText = "CREATE TABLE " + settingSQLite.targetTable + " (" + createSyntax + ", PRIMARY KEY (" + primaryKeySyntax + "))";
+                    sqliteCommand.CommandText = "CREATE TABLE " + settingItem.targetTable + " (" + createSyntax + ", PRIMARY KEY (" + primaryKeySyntax + "))";
                 else
-                    sqliteCommand.CommandText = "CREATE TABLE " + settingSQLite.targetTable + " (" + createSyntax + ")";
+                    sqliteCommand.CommandText = "CREATE TABLE " + settingItem.targetTable + " (" + createSyntax + ")";
 
                 sqliteCommand.ExecuteNonQuery();
             }//using
@@ -177,7 +164,7 @@ public sealed class ExcelToSQLite : ExcelExport
                         insertSyntax += "?";
                     }//for
 
-                    sqliteCommand.CommandText = "INSERT INTO " + settingSQLite.targetTable + " VALUES (" + insertSyntax + ")";
+                    sqliteCommand.CommandText = "INSERT INTO " + settingItem.targetTable + " VALUES (" + insertSyntax + ")";
 
                     foreach (Field itor in tableFields)
                         sqliteCommand.Parameters.Add(new SQLiteParameter(itor.sqliteType.dbType()));

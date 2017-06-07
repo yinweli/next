@@ -9,7 +9,7 @@ using System.Linq;
 /// </summary>
 public class SettingPath
 {
-    /// <summary>e流光
+    /// <summary>
     /// 來源資料路徑
     /// </summary>
     public string sourcePath = "";
@@ -34,6 +34,16 @@ public class SettingItem
     /// 來源Excel表單名稱
     /// </summary>
     public string sourceSheet = "";
+
+    /// <summary>
+    /// 目標資料庫名稱
+    /// </summary>
+    public string targetDatabase = "";
+
+    /// <summary>
+    /// 目標資料表名稱
+    /// </summary>
+    public string targetTable = "";
 
     public override string ToString()
     {
@@ -89,59 +99,56 @@ public abstract class ExcelExport
 
     public bool execute(SettingPath settingPath, SettingItem settingItem)
     {
-        using (AutoStopWatch autoStopWatch = new AutoStopWatch(settingItem.ToString()))
+        if (settingPath == null)
+            return Output.outputError("setting path null");
+
+        if (settingItem == null)
+            return Output.outputError("setting item null");
+
+        this.settingPath = settingPath;
+        this.settingItem = settingItem;
+
+        string sourceFilePath = Path.Combine(settingPath.sourcePath, settingItem.sourceXls);
+
+        if (File.Exists(sourceFilePath) == false)
+            return Output.outputError(settingItem.ToString(), "excel not exist");
+
+        try
         {
-            if (settingPath == null)
-                return Output.outputError("setting path null");
-
-            if (settingItem == null)
-                return Output.outputError("setting item null");
-
-            this.settingPath = settingPath;
-            this.settingItem = settingItem;
-
-            string sourceFilePath = Path.Combine(settingPath.sourcePath, settingItem.sourceXls);
-
-            if (File.Exists(sourceFilePath) == false)
-                return Output.outputError(settingItem.ToString(), "excel not exist");
-
-            try
+            using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(sourceFilePath)))
             {
-                using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(sourceFilePath)))
-                {
-                    ExcelWorksheet excelWorkSheet = excelPackage.Workbook.Worksheets[settingItem.sourceSheet];
+                ExcelWorksheet excelWorkSheet = excelPackage.Workbook.Worksheets[settingItem.sourceSheet];
 
-                    if (excelWorkSheet == null)
-                        return Output.outputError(settingItem.ToString(), "sheet not exist");
+                if (excelWorkSheet == null)
+                    return Output.outputError(settingItem.ToString(), "sheet not exist");
 
-                    if (excelWorkSheet.Dimension.Columns <= 0)
-                        return Output.outputError(settingItem.ToString(), "sheet column empty");
+                if (excelWorkSheet.Dimension.Columns <= 0)
+                    return Output.outputError(settingItem.ToString(), "sheet column empty");
 
-                    List<string> notes = Util.getExcelRows(excelWorkSheet, LINE_NOTE);
-                    List<string> fields = Util.getExcelRows(excelWorkSheet, LINE_FIELD);
+                List<string> notes = Util.getExcelRows(excelWorkSheet, LINE_NOTE);
+                List<string> fields = Util.getExcelRows(excelWorkSheet, LINE_FIELD);
 
-                    if (readField(notes, fields) == false)
-                        return Output.outputError(settingItem.ToString(), "read field failed");
+                if (readField(notes, fields) == false)
+                    return Output.outputError(settingItem.ToString(), "read field failed");
 
-                    int countOfDataRow = Math.Max(Util.getExcelRowCount(excelWorkSheet) - LINE_FIELD, 0);
-                    List<List<string>> datas = Enumerable.Range(LINE_DATA, countOfDataRow)
-                        .Select(itor => Util.getExcelRows(excelWorkSheet, itor, fields.Count)).ToList();
+                int countOfDataRow = Math.Max(Util.getExcelRowCount(excelWorkSheet) - LINE_FIELD, 0);
+                List<List<string>> datas = Enumerable.Range(LINE_DATA, countOfDataRow)
+                    .Select(itor => Util.getExcelRows(excelWorkSheet, itor, fields.Count)).ToList();
 
-                    if (readData(datas) == false)
-                        return Output.outputError(settingItem.ToString(), "read data failed");
-                }//using
-            }
-            catch (Exception e)
-            {
-                return Output.outputError(settingItem.ToString(), "open excel file failed, " + e.ToString());
-            }
-            finally
-            {
-                readFinish();
-            }
+                if (readData(datas) == false)
+                    return Output.outputError(settingItem.ToString(), "read data failed");
+            }//using
+        }
+        catch (Exception e)
+        {
+            return Output.outputError(settingItem.ToString(), "open excel file failed, " + e.ToString());
+        }
+        finally
+        {
+            readFinish();
+        }
 
-            return true;
-        }//using
+        return true;
     }
 
     /// <summary>

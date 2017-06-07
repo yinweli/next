@@ -12,7 +12,7 @@ public class Program
 
     private static bool start(string[] args)
     {
-        using (AutoStopWatch autoStopWatch = new AutoStopWatch("next.template"))
+        using (AutoStopWatch autoStopWatchGlobal = new AutoStopWatch("next.template"))
         {
             File.Delete(Output.errorLog);
 
@@ -34,16 +34,26 @@ public class Program
 
             settings.RemoveAt(0);
 
-            List<SettingSQLite> settingSQLites = settings.Select(itor => JsonConvert.DeserializeObject<SettingSQLite>(itor)).ToList();
+            List<SettingItem> settingItem = settings.Select(itor => JsonConvert.DeserializeObject<SettingItem>(itor)).ToList();
 
-            if (settingSQLites.Count <= 0)
-                return Output.outputError("read setting sqlite failed");
+            if (settingItem.Count <= 0)
+                return Output.outputError("read setting item failed");
 
-            if (settingSQLites.Any(itor => itor == null))
-                return Output.outputError("read setting sqlite failed");
+            if (settingItem.Any(itor => itor == null))
+                return Output.outputError("read setting item failed");
 
-            foreach (SettingSQLite itor in settingSQLites)
-                new ExcelToSQLite().execute(settingPath, itor);
+            foreach (SettingItem itor in settingItem)
+            {
+                Output.output(string.Format("{0} start", itor.ToString()));
+
+                // 輸出成SQliteDB
+                using (AutoStopWatch autoStopWatchLocal = new AutoStopWatch("ExcelToSQLite"))
+                    new ExcelToSQLite().execute(settingPath, itor);
+
+                // 輸出成內含SQL命令的文字檔案
+                using (AutoStopWatch autoStopWatchLocal = new AutoStopWatch("ExcelToSQLText"))
+                    new ExcelToSQLText().execute(settingPath, itor);
+            }//for
 
             return true;
         }//using
