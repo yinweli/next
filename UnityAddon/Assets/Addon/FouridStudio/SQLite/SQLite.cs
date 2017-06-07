@@ -25,12 +25,16 @@ namespace FouridStudio
         /// 開啟資料庫
         /// 通常用在要讀取SQLiteDB檔案時
         /// </summary>
-        public void open(string dataSource)
+        /// <param name="dataSource">資料來源字串</param>
+        /// <returns>資料庫物件</returns>
+        public SQLite open(string dataSource)
         {
             close();
 
             connect = new SqliteConnection(dataSource);
             connect.Open();
+
+            return this;
         }
 
         /// <summary>
@@ -38,7 +42,8 @@ namespace FouridStudio
         /// 通常用在要讀取SQLite文字檔案時
         /// </summary>
         /// <param name="sqls">文字檔案內容列表</param>
-        public void open(IEnumerable<string> sqls)
+        /// <returns>資料庫物件</returns>
+        public SQLite open(IEnumerable<string> sqls)
         {
             close();
 
@@ -53,6 +58,8 @@ namespace FouridStudio
                     command.ExecuteNonQuery();
                 }//using
             }//for
+
+            return this;
         }
 
         /// <summary>
