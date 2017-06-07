@@ -87,7 +87,7 @@ public class ExcelToSQLText : ExcelExport
         if (tableFields.Any(itor => itor == null))
             return Output.outputError(SettingItem.ToString(), "fields error");
 
-        filepath = Path.Combine(SettingPath.targetPath, settingItem.targetDatabase) + ".txt";
+        filepath = Path.Combine(SettingPath.targetPath, settingItem.targetDatabase + "." + settingItem.targetTable) + ".txt";
         fileContent.Clear();
 
         // 刪除舊的資料表

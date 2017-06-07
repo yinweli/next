@@ -1,0 +1,4 @@
+{"sourcePath":"Source", "targetPath":"Output"}
+
+{"sourceXls":"terrainType.xlsx", "sourceSheet":"Sheet1", "targetDatabase":"template", "targetTable":"terrainType"}
+{"sourceXls":"terrain.xlsx", "sourceSheet":"Sheet1", "targetDatabase":"template", "targetTable":"terrain"}
