@@ -9,41 +9,61 @@ namespace FouridStudio
     /// 用來讀取SQLite資料庫的元件
     /// 注意!不支援多執行緒
     /// </summary>
-    public class SQLiteDataBase : IDisposable
+    public class SQLite : IDisposable
     {
-        /// <summary>
-        /// 資料庫名稱
-        /// </summary>
-        private string dataSource = "";
-
         /// <summary>
         /// 資料庫物件
         /// </summary>
         private SqliteConnection connect = null;
 
-        public SQLiteDataBase(string dataSource)
+        public void Dispose()
         {
-            this.dataSource = dataSource;
+            close();
         }
 
-        public void Dispose()
+        /// <summary>
+        /// 開啟資料庫
+        /// 通常用在要讀取SQLiteDB檔案時
+        /// </summary>
+        public void open(string dataSource)
+        {
+            close();
+
+            connect = new SqliteConnection(dataSource);
+            connect.Open();
+        }
+
+        /// <summary>
+        /// 開啟資料庫
+        /// 通常用在要讀取SQLite文字檔案時
+        /// </summary>
+        /// <param name="sqls">文字檔案內容列表</param>
+        public void open(IEnumerable<string> sqls)
+        {
+            close();
+
+            connect = new SqliteConnection("Data Source=:memory;Version=3;");
+            connect.Open();
+
+            foreach (string itor in sqls)
+            {
+                using (SqliteCommand command = connect.CreateCommand())
+                {
+                    command.CommandText = itor;
+                    command.ExecuteNonQuery();
+                }//using
+            }//for
+        }
+
+        /// <summary>
+        /// 關閉資料庫
+        /// </summary>
+        public void close()
         {
             if (connect != null)
             {
                 connect.Close();
                 connect = null;
-            }//if
-        }
-
-        /// <summary>
-        /// 連線到資料庫
-        /// </summary>
-        public void open()
-        {
-            if (connect == null)
-            {
-                connect = new SqliteConnection(dataSource);
-                connect.Open();
             }//if
         }
 
@@ -54,7 +74,8 @@ namespace FouridStudio
         /// <returns>結果列表</returns>
         public List<SQLiteResult> query(string sql)
         {
-            open();
+            if (connect == null)
+                throw new Exception("sqlite not open");
 
             using (SqliteCommand command = connect.CreateCommand())
             {
