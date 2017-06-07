@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 
@@ -127,12 +128,15 @@ public class ExcelToSQLText : ExcelExport
         {
             string insertSyntax = "";
 
-            foreach (string itorData in itor)
+            for (int i = 0; i < itor.Count; ++i)
             {
                 if (insertSyntax.Length > 0)
                     insertSyntax += ", ";
 
-                insertSyntax += itorData;
+                if (tableFields[i].sqliteType.dbType() == DbType.String)
+                    insertSyntax += "\"" + itor[i] + "\"";
+                else
+                    insertSyntax += itor[i];
             }//for
 
             fileContent.Add("INSERT INTO " + settingItem.targetTable + " VALUES (" + insertSyntax + ")");
