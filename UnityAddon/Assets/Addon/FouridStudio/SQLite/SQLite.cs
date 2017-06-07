@@ -47,7 +47,7 @@ namespace FouridStudio
         {
             close();
 
-            connect = new SqliteConnection("Data Source=:memory;Version=3;");
+            connect = new SqliteConnection("Data Source=:memory:;Version=3;");
             connect.Open();
 
             foreach (string itor in sqls)
