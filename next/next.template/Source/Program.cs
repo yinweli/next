@@ -46,15 +46,15 @@ public class Program
             {
                 Output.output(string.Format("{0} start", itor.ToString()));
 
-                // 輸出成SQliteDB
+                // 輸出成SQlite格式的資料庫檔案
                 using (AutoStopwatch autoStopWatchLocal = new AutoStopwatch("ExcelToSQLite"))
                     new ExcelToSQLite().execute(settingPath, itor);
 
-                // 輸出成內含SQL命令的文字檔案
+                // 輸出成內含sql命令的文字檔案
                 using (AutoStopwatch autoStopWatchLocal = new AutoStopwatch("ExcelToSQLText"))
                     new ExcelToSQLText().execute(settingPath, itor);
 
-                // 輸出成內含Json格式的文字檔案
+                // 輸出成內含json格式的文字檔案
                 using (AutoStopwatch autoStopWatchLocal = new AutoStopwatch("ExcelToJson"))
                     new ExcelToJson().execute(settingPath, itor);
             }//for
