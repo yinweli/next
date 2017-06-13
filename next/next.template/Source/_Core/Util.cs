@@ -1,6 +1,9 @@
 ﻿using OfficeOpenXml;
 using System.Collections.Generic;
 
+/// <summary>
+/// 工具類別
+/// </summary>
 public class Util
 {
     /// <summary>

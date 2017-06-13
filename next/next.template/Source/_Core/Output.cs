@@ -2,6 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 
+/// <summary>
+/// 輸出訊息類別
+/// </summary>
 public class Output
 {
     /// <summary>

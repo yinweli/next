@@ -12,7 +12,7 @@ public class Program
 
     private static bool start(string[] args)
     {
-        using (AutoStopWatch autoStopWatchGlobal = new AutoStopWatch("next.template"))
+        using (AutoStopwatch autoStopWatchGlobal = new AutoStopwatch("next.template"))
         {
             File.Delete(Output.errorLog);
 
@@ -47,12 +47,16 @@ public class Program
                 Output.output(string.Format("{0} start", itor.ToString()));
 
                 // 輸出成SQliteDB
-                using (AutoStopWatch autoStopWatchLocal = new AutoStopWatch("ExcelToSQLite"))
+                using (AutoStopwatch autoStopWatchLocal = new AutoStopwatch("ExcelToSQLite"))
                     new ExcelToSQLite().execute(settingPath, itor);
 
                 // 輸出成內含SQL命令的文字檔案
-                using (AutoStopWatch autoStopWatchLocal = new AutoStopWatch("ExcelToSQLText"))
+                using (AutoStopwatch autoStopWatchLocal = new AutoStopwatch("ExcelToSQLText"))
                     new ExcelToSQLText().execute(settingPath, itor);
+
+                // 輸出成內含Json格式的文字檔案
+                using (AutoStopwatch autoStopWatchLocal = new AutoStopwatch("ExcelToJson"))
+                    new ExcelToJson().execute(settingPath, itor);
             }//for
 
             return true;

@@ -3,7 +3,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 
-public class ExcelToSQLText : ExcelExport
+public class ExcelToJson : ExcelExport
 {
     /// <summary>
     /// 項目設定物件
@@ -40,36 +40,8 @@ public class ExcelToSQLText : ExcelExport
         if (excelFields.Any(itor => itor == null))
             return Output.outputError(SettingItem.ToString(), "fields error");
 
-        filepath = Path.Combine(SettingPath.targetPath, settingItem.targetDatabase) + ".sqltext.txt";
+        filepath = Path.Combine(SettingPath.targetPath, settingItem.targetDatabase) + "." + settingItem.targetTable + ".json.txt";
         fileContent.Clear();
-
-        // 刪除舊的資料表
-        fileContent.Add("DROP TABLE IF EXISTS " + settingItem.targetTable);
-
-        // 建立資料表
-        string createSyntax = "";
-        string primaryKeySyntax = "";
-
-        foreach (Field itor in excelFields)
-        {
-            if (createSyntax.Length > 0)
-                createSyntax += ", ";
-
-            createSyntax += "\"" + itor.field + "\" " + itor.fieldType.fieldType();
-
-            if (itor.primaryKey)
-            {
-                if (primaryKeySyntax.Length > 0)
-                    primaryKeySyntax += ", ";
-
-                primaryKeySyntax += "\"" + itor.field + "\"";
-            } //if
-        }//for
-
-        if (primaryKeySyntax.Length > 0)
-            fileContent.Add("CREATE TABLE " + settingItem.targetTable + " (" + createSyntax + ", PRIMARY KEY (" + primaryKeySyntax + "))");
-        else
-            fileContent.Add("CREATE TABLE " + settingItem.targetTable + " (" + createSyntax + ")");
 
         return true;
     }
@@ -78,20 +50,22 @@ public class ExcelToSQLText : ExcelExport
     {
         foreach (List<string> itor in datas)
         {
-            string insertSyntax = "";
+            string jsonString = "";
 
             for (int i = 0; i < itor.Count; ++i)
             {
-                if (insertSyntax.Length > 0)
-                    insertSyntax += ", ";
+                if (jsonString.Length > 0)
+                    jsonString += ", ";
+
+                jsonString += "\"" + excelFields[i].field + "\":";
 
                 if (excelFields[i].fieldType.dbType() == DbType.String)
-                    insertSyntax += "\"" + itor[i] + "\"";
+                    jsonString += "\"" + itor[i] + "\"";
                 else
-                    insertSyntax += itor[i];
+                    jsonString += itor[i];
             }//for
 
-            fileContent.Add("INSERT INTO " + settingItem.targetTable + " VALUES (" + insertSyntax + ")");
+            fileContent.Add("{" + jsonString + "}");
         }//for
 
         return true;

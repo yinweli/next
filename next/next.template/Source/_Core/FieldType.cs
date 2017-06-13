@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Data;
 
-public interface ISQLiteType
+/// <summary>
+/// 欄位型態介面
+/// </summary>
+public interface IFieldType
 {
     /// <summary>
-    /// 取得SQLite型態字串
+    /// 取得欄位型態字串
     /// </summary>
-    /// <returns>SQLite型態字串</returns>
-    string sqliteType();
+    /// <returns>欄位型態字串</returns>
+    string fieldType();
 
     /// <summary>
     /// 取得資料庫型態列舉
@@ -23,9 +26,12 @@ public interface ISQLiteType
     object parse(string value);
 }
 
-public class SQLiteTypeInteger : ISQLiteType
+/// <summary>
+/// 整數欄位類別
+/// </summary>
+public class FieldTypeInteger : IFieldType
 {
-    public string sqliteType()
+    public string fieldType()
     {
         return "INTEGER";
     }
@@ -41,9 +47,12 @@ public class SQLiteTypeInteger : ISQLiteType
     }
 }
 
-public class SQLiteTypeReal : ISQLiteType
+/// <summary>
+/// 浮點數欄位類別
+/// </summary>
+public class FieldTypeReal : IFieldType
 {
-    public string sqliteType()
+    public string fieldType()
     {
         return "REAL";
     }
@@ -59,9 +68,12 @@ public class SQLiteTypeReal : ISQLiteType
     }
 }
 
-public class SQLiteTypeText : ISQLiteType
+/// <summary>
+/// 字串欄位類別
+/// </summary>
+public class FieldTypeText : IFieldType
 {
-    public string sqliteType()
+    public string fieldType()
     {
         return "TEXT";
     }
@@ -77,21 +89,24 @@ public class SQLiteTypeText : ISQLiteType
     }
 }
 
-public class SQLiteType
+/// <summary>
+/// 欄位型態類別
+/// </summary>
+public class FieldType
 {
-    public static ISQLiteType INTEGER = new SQLiteTypeInteger();
-    public static ISQLiteType REAL = new SQLiteTypeReal();
-    public static ISQLiteType TEXT = new SQLiteTypeText();
+    public static IFieldType INTEGER = new FieldTypeInteger();
+    public static IFieldType REAL = new FieldTypeReal();
+    public static IFieldType TEXT = new FieldTypeText();
 
-    public static ISQLiteType parse(string sqliteType)
+    public static IFieldType parse(string fieldType)
     {
-        if (sqliteType.CompareTo(INTEGER.sqliteType()) == 0)
+        if (fieldType.CompareTo(INTEGER.fieldType()) == 0)
             return INTEGER;
 
-        if (sqliteType.CompareTo(REAL.sqliteType()) == 0)
+        if (fieldType.CompareTo(REAL.fieldType()) == 0)
             return REAL;
 
-        if (sqliteType.CompareTo(TEXT.sqliteType()) == 0)
+        if (fieldType.CompareTo(TEXT.fieldType()) == 0)
             return TEXT;
 
         return null;

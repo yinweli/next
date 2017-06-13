@@ -6,63 +6,15 @@ using System.Linq;
 
 public sealed class ExcelToSQLite : ExcelExport
 {
-    private class Field
-    {
-        /// <summary>
-        /// 欄位名稱
-        /// </summary>
-        public string field = "";
-
-        /// <summary>
-        /// 欄位型態
-        /// </summary>
-        public ISQLiteType sqliteType = null;
-
-        /// <summary>
-        /// 主鍵旗標
-        /// </summary>
-        public bool primaryKey = false;
-
-        public static Field parse(string fieldString)
-        {
-            string[] parts = fieldString.Split(TOKEN_FIELD_SEPARATOR.ToCharArray());
-
-            if (parts.Length < 2)
-                return null;
-
-            ISQLiteType sqliteType = SQLiteType.parse(parts[1]);
-
-            if (sqliteType == null)
-                return null;
-
-            return new Field()
-            {
-                field = parts[0],
-                sqliteType = sqliteType,
-                primaryKey = parts.Length >= 3 && parts[2].CompareTo(TOKEN_PRIMARY_KEY) == 0,
-            };
-        }
-    }
-
     /// <summary>
-    /// 欄位分隔符號
-    /// </summary>
-    private const string TOKEN_FIELD_SEPARATOR = "#";
-
-    /// <summary>
-    /// 主鍵符號
-    /// </summary>
-    private const string TOKEN_PRIMARY_KEY = "PK";
-
-    /// <summary>
-    /// SQLite設定物件
+    /// 項目設定物件
     /// </summary>
     private SettingItem settingItem = null;
 
     /// <summary>
     /// 資料表欄位列表
     /// </summary>
-    private List<Field> tableFields = null;
+    private List<Field> excelFields = null;
 
     /// <summary>
     /// SQLite連線物件
@@ -76,15 +28,15 @@ public sealed class ExcelToSQLite : ExcelExport
         if (settingItem == null)
             return Output.outputError(SettingItem.ToString(), "setting item fromat error");
 
-        tableFields = fields.Select(itor => Field.parse(itor)).ToList();
+        excelFields = fields.Select(itor => Field.parse(itor)).ToList();
 
-        if (tableFields.Count <= 0)
+        if (excelFields.Count <= 0)
             return Output.outputError(SettingItem.ToString(), "fields empty");
 
-        if (tableFields.Any(itor => itor == null))
+        if (excelFields.Any(itor => itor == null))
             return Output.outputError(SettingItem.ToString(), "fields error");
 
-        string targetFilePath = Path.Combine(SettingPath.targetPath, settingItem.targetDatabase) + ".db";
+        string targetFilePath = Path.Combine(SettingPath.targetPath, settingItem.targetDatabase) + ".sqlite.db";
 
         if (File.Exists(targetFilePath) == false)
             SQLiteConnection.CreateFile(targetFilePath);
@@ -114,12 +66,12 @@ public sealed class ExcelToSQLite : ExcelExport
                 string createSyntax = "";
                 string primaryKeySyntax = "";
 
-                foreach (Field itor in tableFields)
+                foreach (Field itor in excelFields)
                 {
                     if (createSyntax.Length > 0)
                         createSyntax += ", ";
 
-                    createSyntax += "\"" + itor.field + "\" " + itor.sqliteType.sqliteType();
+                    createSyntax += "\"" + itor.field + "\" " + itor.fieldType.fieldType();
 
                     if (itor.primaryKey)
                     {
@@ -156,7 +108,7 @@ public sealed class ExcelToSQLite : ExcelExport
                 {
                     string insertSyntax = "";
 
-                    foreach (Field itor in tableFields)
+                    foreach (Field itor in excelFields)
                     {
                         if (insertSyntax.Length > 0)
                             insertSyntax += ", ";
@@ -166,13 +118,13 @@ public sealed class ExcelToSQLite : ExcelExport
 
                     sqliteCommand.CommandText = "INSERT INTO " + settingItem.targetTable + " VALUES (" + insertSyntax + ")";
 
-                    foreach (Field itor in tableFields)
-                        sqliteCommand.Parameters.Add(new SQLiteParameter(itor.sqliteType.dbType()));
+                    foreach (Field itor in excelFields)
+                        sqliteCommand.Parameters.Add(new SQLiteParameter(itor.fieldType.dbType()));
 
                     foreach (List<string> itor in datas)
                     {
-                        for (int i = 0; i < tableFields.Count; ++i)
-                            sqliteCommand.Parameters[i].Value = itor.Count > i ? tableFields[i].sqliteType.parse(itor[i]) : "";
+                        for (int i = 0; i < excelFields.Count; ++i)
+                            sqliteCommand.Parameters[i].Value = itor.Count > i ? excelFields[i].fieldType.parse(itor[i]) : "";
 
                         sqliteCommand.ExecuteNonQuery();
                     }//for

@@ -1,12 +1,22 @@
 ﻿using System;
 using System.Diagnostics;
 
-public class AutoStopWatch : IDisposable
+/// <summary>
+/// 自動報告計時類別
+/// </summary>
+public class AutoStopwatch : IDisposable
 {
+    /// <summary>
+    /// 報告標題
+    /// </summary>
     private string title = "";
+
+    /// <summary>
+    /// 計時器物件
+    /// </summary>
     private Stopwatch stopWatch = new Stopwatch();
 
-    public AutoStopWatch(string title)
+    public AutoStopwatch(string title)
     {
         this.title = title;
         this.stopWatch.Start();
