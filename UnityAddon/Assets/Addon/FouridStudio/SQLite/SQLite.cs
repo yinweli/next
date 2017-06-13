@@ -109,15 +109,15 @@ namespace FouridStudio
         /// <summary>
         /// 結果列表
         /// </summary>
-        private Dictionary<string, string> results = new Dictionary<string, string>();
+        private Dictionary<string, object> results = new Dictionary<string, object>();
 
         public SQLiteResult(SqliteDataReader reader)
         {
             for (int i = 0; i < reader.FieldCount; ++i)
-                results[reader.GetName(i)] = Convert.ToString(reader.GetValue(i));
+                results[reader.GetName(i)] = reader.GetValue(i);
         }
 
-        public string this[string key]
+        public object this[string key]
         {
             get
             {
@@ -130,12 +130,12 @@ namespace FouridStudio
             return results.GetEnumerator();
         }
 
-        public Dictionary<string, string>.KeyCollection keys()
+        public Dictionary<string, object>.KeyCollection keys()
         {
             return results.Keys;
         }
 
-        public Dictionary<string, string>.ValueCollection values()
+        public Dictionary<string, object>.ValueCollection values()
         {
             return results.Values;
         }
