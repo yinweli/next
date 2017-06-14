@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FouridStudio
 {
@@ -75,6 +76,15 @@ namespace FouridStudio
         public T get(object key)
         {
             return datas.ContainsKey(key) ? datas[key] : null;
+        }
+
+        /// <summary>
+        /// 取得全部資料
+        /// </summary>
+        /// <returns>資料物件列表</returns>
+        public IEnumerable<T> getAll()
+        {
+            return datas.Values.ToList();
         }
     }
 }
