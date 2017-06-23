@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FouridStudio
 {
@@ -16,11 +17,18 @@ namespace FouridStudio
         public delegate T AllocObject();
 
         /// <summary>
-        /// 委派型態:釋放物件, 必須傳回instance
+        /// 委派型態:重置物件, 必須傳回obj
         /// </summary>
-        /// <param name="instance">釋放物件</param>
+        /// <param name="obj">重置物件</param>
+        /// <returns></returns>
+        public delegate T ResetObject(T obj);
+
+        /// <summary>
+        /// 委派型態:釋放物件, 必須傳回obj
+        /// </summary>
+        /// <param name="obj">釋放物件</param>
         /// <returns>釋放物件</returns>
-        public delegate T FreeObject(T instance);
+        public delegate T FreeObject(T obj);
 
         /// <summary>
         /// 當可用物件不足時, 分派的新物件數量
@@ -31,6 +39,11 @@ namespace FouridStudio
         /// 建立物件委派
         /// </summary>
         public AllocObject allocObject = null;
+
+        /// <summary>
+        /// 重置物件委派
+        /// </summary>
+        public ResetObject resetObject = null;
 
         /// <summary>
         /// 釋放物件委派
@@ -56,17 +69,29 @@ namespace FouridStudio
             if (objects == null || nextIndex >= objects.Length)
                 resize();
 
-            return objects[nextIndex++];
+            T obj = objects[nextIndex++];
+
+            return resetObject != null ? resetObject(obj) : obj;
         }
 
         /// <summary>
         /// 釋放物件
         /// </summary>
-        /// <param name="instance">釋放物件</param>
-        public void free(T instance)
+        /// <param name="obj">釋放物件</param>
+        public void free(T obj)
         {
             if (nextIndex > 0)
-                objects[--nextIndex] = freeObject != null ? freeObject(instance) : instance;
+                objects[--nextIndex] = freeObject != null ? freeObject(obj) : obj;
+        }
+
+        /// <summary>
+        /// 釋放物件
+        /// </summary>
+        /// <param name="objs">釋放物件列表</param>
+        public void free(IEnumerable<T> objs)
+        {
+            foreach (T itor in objs)
+                free(itor);
         }
 
         /// <summary>
