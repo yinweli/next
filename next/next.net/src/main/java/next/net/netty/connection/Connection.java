@@ -1,11 +1,10 @@
 package next.net.netty.connection;
 
+import java.net.InetSocketAddress;
+
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
-
-import java.net.InetSocketAddress;
-
 import next.net.netty.handler.BaseHandler;
 
 /**
@@ -33,6 +32,16 @@ public class Connection
     
     /**
      * <pre>
+     * 關閉連線
+     * </pre>
+     */
+    public void close()
+    {
+        ctx.close();
+    }
+    
+    /**
+     * <pre>
      * 傳送封包
      * </pre>
      * 
@@ -44,13 +53,13 @@ public class Connection
     {
         if (handler == null)
             throw new Exception("handler null");
-        
+            
         if (ctx == null)
             throw new Exception("client null");
-        
+            
         if (packets == null)
             throw new Exception("packet null");
-        
+            
         ctx.writeAndFlush(handler.send(packets));
     }
     
