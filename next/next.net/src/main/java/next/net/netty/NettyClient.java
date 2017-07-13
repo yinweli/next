@@ -136,9 +136,10 @@ public class NettyClient
      * </pre>
      * 
      * @param packet 封包物件
+     * @return 頻道物件
      * @throws Exception
      */
-    public void send(final Object packet) throws Exception
+    public ChannelFuture send(final Object packet) throws Exception
     {
         if (handler == null)
             throw new Exception("handler null");
@@ -146,6 +147,6 @@ public class NettyClient
         if (packet == null)
             throw new Exception("packet null");
         
-        future.channel().writeAndFlush(handler.send(packet));
+        return future.channel().writeAndFlush(handler.send(packet));
     }
 }

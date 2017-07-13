@@ -108,7 +108,9 @@ namespace FouridStudio
         {
             if (client != null)
             {
-                client.GetStream().Close();
+                if (client.Connected)
+                    client.GetStream().Close();
+
                 client.Close();
                 client = null;
             }//if
