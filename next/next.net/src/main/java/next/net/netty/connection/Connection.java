@@ -2,6 +2,7 @@ package next.net.netty.connection;
 
 import java.net.InetSocketAddress;
 
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
@@ -45,22 +46,22 @@ public class Connection
      * 傳送封包
      * </pre>
      * 
-     * @param ctx 客戶端物件
      * @param packets 封包物件
+     * @return 頻道物件
      * @throws Exception
      */
-    public void send(final Object... packets) throws Exception
+    public ChannelFuture send(final Object... packets) throws Exception
     {
         if (handler == null)
             throw new Exception("handler null");
-            
+        
         if (ctx == null)
             throw new Exception("client null");
-            
+        
         if (packets == null)
             throw new Exception("packet null");
-            
-        ctx.writeAndFlush(handler.send(packets));
+        
+        return ctx.writeAndFlush(handler.send(packets));
     }
     
     /**
