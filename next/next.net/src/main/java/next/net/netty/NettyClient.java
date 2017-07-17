@@ -1,6 +1,7 @@
 package next.net.netty;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -45,7 +46,7 @@ public class NettyClient
     /** 用於處理連線業務, 讀寫業務, 邏輯業務的執行緒池 */
     private EventLoopGroup work = null;
     /** 網路物件 */
-    private ChannelFuture future = null;
+    private Channel channel = null;
     
     /**
      * <pre>
@@ -61,7 +62,7 @@ public class NettyClient
         
         // 建立並啟動網路物件
         work = new NioEventLoopGroup();
-        future = new Bootstrap()
+        channel = new Bootstrap()
             .group(work)
             .channel(NioSocketChannel.class)
             .option(ChannelOption.TCP_NODELAY, tcpNoDelay)
@@ -74,19 +75,19 @@ public class NettyClient
                         @Override
                         public void channelActive(ChannelHandlerContext ctx) throws Exception
                         {
-                            handler.active(new Connection(handler, ctx));
+                            handler.active(new Connection(handler, ctx.channel()));
                         }
                         
                         @Override
                         public void channelInactive(ChannelHandlerContext ctx) throws Exception
                         {
-                            handler.inactive(new Connection(handler, ctx));
+                            handler.inactive(new Connection(handler, ctx.channel()));
                         }
                         
                         @Override
                         public void channelRead(ChannelHandlerContext ctx, Object packet) throws Exception
                         {
-                            handler.recv(new Connection(handler, ctx), packet);
+                            handler.recv(new Connection(handler, ctx.channel()), packet);
                         }
                         
                         @Override
@@ -108,7 +109,8 @@ public class NettyClient
                 }
             })
             .connect(ip, port)
-            .sync();
+            .sync()
+            .channel();
     }
     
     /**
@@ -122,7 +124,7 @@ public class NettyClient
     {
         try
         {
-            future.channel().closeFuture().sync();
+            channel.closeFuture().sync();
         } // try
         finally
         {
@@ -147,6 +149,6 @@ public class NettyClient
         if (packet == null)
             throw new Exception("packet null");
         
-        return future.channel().writeAndFlush(handler.send(packet));
+        return channel.writeAndFlush(handler.send(packet));
     }
 }

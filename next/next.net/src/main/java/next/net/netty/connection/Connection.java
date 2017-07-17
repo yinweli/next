@@ -2,8 +2,9 @@ package next.net.netty.connection;
 
 import java.net.InetSocketAddress;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
 import next.net.netty.handler.BaseHandler;
@@ -23,12 +24,12 @@ public class Connection
     /** 封包處理物件 */
     private BaseHandler handler = null;
     /** 連線管理物件 */
-    private ChannelHandlerContext ctx = null;
+    private Channel channel = null;
     
-    public Connection(BaseHandler handler, ChannelHandlerContext ctx)
+    public Connection(BaseHandler handler, Channel ctx)
     {
         this.handler = handler;
-        this.ctx = ctx;
+        this.channel = ctx;
     }
     
     /**
@@ -38,7 +39,7 @@ public class Connection
      */
     public void close()
     {
-        ctx.close();
+        channel.close();
     }
     
     /**
@@ -55,13 +56,27 @@ public class Connection
         if (handler == null)
             throw new Exception("handler null");
         
-        if (ctx == null)
+        if (channel == null)
             throw new Exception("client null");
         
         if (packets == null)
             throw new Exception("packet null");
         
-        return ctx.writeAndFlush(handler.send(packets));
+        return channel.writeAndFlush(handler.send(packets));
+    }
+    
+    /**
+     * <pre>
+     * 傳送封包, 然後關閉連線
+     * </pre>
+     * 
+     * @param packets 封包物件
+     * @return 頻道物件
+     * @throws Exception
+     */
+    public ChannelFuture sendAndClose(final Object... packets) throws Exception
+    {
+        return send(packets).addListener(ChannelFutureListener.CLOSE);
     }
     
     /**
@@ -73,7 +88,7 @@ public class Connection
      */
     public String getIP()
     {
-        return ((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress();
+        return ((InetSocketAddress) channel.remoteAddress()).getAddress().getHostAddress();
     }
     
     /**
@@ -86,6 +101,6 @@ public class Connection
      */
     public <T> Attribute<T> getAttribute(AttributeKey<T> key)
     {
-        return ctx.channel().attr(key);
+        return channel.attr(key);
     }
 }

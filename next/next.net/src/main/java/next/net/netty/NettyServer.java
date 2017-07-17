@@ -1,5 +1,7 @@
 package next.net.netty;
 
+import java.io.IOException;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandler;
@@ -15,9 +17,6 @@ import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import io.netty.util.concurrent.EventExecutorGroup;
-
-import java.io.IOException;
-
 import next.net.netty.connection.Connection;
 import next.net.netty.handler.BaseHandler;
 
@@ -101,19 +100,19 @@ public class NettyServer
                             @Override
                             public void channelActive(ChannelHandlerContext ctx) throws Exception
                             {
-                                handler.active(new Connection(handler, ctx));
+                                handler.active(new Connection(handler, ctx.channel()));
                             }
                             
                             @Override
                             public void channelInactive(ChannelHandlerContext ctx) throws Exception
                             {
-                                handler.inactive(new Connection(handler, ctx));
+                                handler.inactive(new Connection(handler, ctx.channel()));
                             }
                             
                             @Override
                             public void channelRead(ChannelHandlerContext ctx, Object packet) throws Exception
                             {
-                                handler.recv(new Connection(handler, ctx), packet);
+                                handler.recv(new Connection(handler, ctx.channel()), packet);
                             }
                             
                             @Override
@@ -142,7 +141,7 @@ public class NettyServer
                 })
                 .bind(port)
                 .sync();
-        }//try
+        } //try
         catch (Exception e)
         {
             channelFuture = null;
@@ -151,7 +150,7 @@ public class NettyServer
             event = null;
             
             throw e;
-        }//catch
+        } //catch
     }
     
     /**
