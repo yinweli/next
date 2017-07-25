@@ -24,7 +24,7 @@ jar{
                    'Implementation-Version': version
     }
     
-    //from sourceSets.main.allSource
+    from sourceSets.main.allSource
 }
 
 task clearFolder(type: Copy, dependsOn: ['build']){

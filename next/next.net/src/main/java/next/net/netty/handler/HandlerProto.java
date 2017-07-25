@@ -267,7 +267,7 @@ public class HandlerProto extends BaseHandler
                 throw new Exception("processor not found(" + type + ")");
             
             processor.onEvent(connection, corePacket.getField(fieldData));
-        }//for
+        } //for
     }
     
     /**
@@ -313,7 +313,7 @@ public class HandlerProto extends BaseHandler
             
             builder.addRepeatedField(fieldType, fieldData.getNumber());
             builder.setField(fieldData, itor);
-        }//for
+        } //for
         
         return builder.build();
     }

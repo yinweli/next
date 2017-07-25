@@ -13,6 +13,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.DefaultEventExecutorGroup;
@@ -116,10 +117,23 @@ public class NettyServer
                             }
                             
                             @Override
-                            public void userEventTriggered(ChannelHandlerContext ctx, Object event) throws Exception
+                            public void channelReadComplete(ChannelHandlerContext ctx) throws Exception
                             {
-                                if (event instanceof IdleStateEvent)
-                                    ctx.close();
+                                ctx.flush();
+                            }
+                            
+                            @Override
+                            public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception
+                            {
+                                if (evt instanceof IdleStateEvent == false)
+                                    return;
+                                
+                                IdleStateEvent event = (IdleStateEvent) evt;
+                                
+                                if (event.state() != IdleState.READER_IDLE)
+                                    return;
+                                
+                                ctx.close();
                             }
                             
                             @Override
@@ -130,13 +144,17 @@ public class NettyServer
                             }
                         };
                         
-                        soc.pipeline().addLast("idleHandler", new IdleStateHandler(0, 0, secondOfIdleKick));
-                        
                         // 加入頻道處理物件
                         if (event == null)
+                        {
+                            soc.pipeline().addLast("idleHandler", new IdleStateHandler(secondOfIdleKick, 0, 0));
                             soc.pipeline().addLast("channelHandler", channelHandler);
+                        }
                         else
-                            soc.pipeline().addLast(event, channelHandler);
+                        {
+                            soc.pipeline().addLast(event, "idleHandler", new IdleStateHandler(secondOfIdleKick, 0, 0));
+                            soc.pipeline().addLast(event, "channelHandler", channelHandler);
+                        } //if
                     }
                 })
                 .bind(port)

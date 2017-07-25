@@ -297,7 +297,7 @@ public class HandlerGson extends BaseHandler
                 throw new Exception("processor not found(" + packetName + ")");
             
             processor.onEvent(connection, INSTANCE_GSON.fromJson(packetData, processor.packetClass()));
-        }//for
+        } //for
     }
     
     /**
