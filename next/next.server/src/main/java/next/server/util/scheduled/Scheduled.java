@@ -212,7 +212,8 @@ public class Scheduled
      * @return 工作控制物件
      * @throws Exception
      */
-    public ScheduledFuture<?> scheduleWeek(Runnable runnable, int weekOfStart, int hourOfStart, int minuteOfStart) throws Exception
+    public ScheduledFuture<?> scheduleWeek(Runnable runnable, int weekOfStart, int hourOfStart,
+        int minuteOfStart) throws Exception
     {
         long millisecondOfNow = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();

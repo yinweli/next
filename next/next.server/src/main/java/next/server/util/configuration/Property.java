@@ -68,7 +68,8 @@ public @interface Property
      * <ul>
      * <li>{@link Boolean} and boolean by
      * {@link util.configuration.BooleanTransformer}</li>
-     * <li>{@link Byte} and byte by {@link util.configuration.ByteTransformer}</li>
+     * <li>{@link Byte} and byte by
+     * {@link util.configuration.ByteTransformer}</li>
      * <li>{@link Character} and char by
      * {@link util.configuration.CharTransformer}</li>
      * <li>{@link Short} and short by
@@ -77,12 +78,15 @@ public @interface Property
      * {@link util.configuration.IntegerTransformer}</li>
      * <li>{@link Float} and float by
      * {@link util.configuration.FloatTransformer}</li>
-     * <li>{@link Long} and long by {@link util.configuration.LongTransformer}</li>
+     * <li>{@link Long} and long by
+     * {@link util.configuration.LongTransformer}</li>
      * <li>{@link Double} and double by
      * {@link util.configuration.DoubleTransformer}</li>
      * <li>{@link String} by {@link util.configuration.StringTransformer}</li>
-     * <li>{@link Enum} and enum by {@link util.configuration.EnumTransformer}</li>
-     * <li>{@link java.io.File} by {@link util.configuration.FileTransformer}</li>
+     * <li>{@link Enum} and enum by
+     * {@link util.configuration.EnumTransformer}</li>
+     * <li>{@link java.io.File} by
+     * {@link util.configuration.FileTransformer}</li>
      * <li>{@link java.util.regex.Pattern} by
      * {@link util.configuration.PatternTransformer}
      * </ul>

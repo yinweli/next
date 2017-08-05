@@ -43,7 +43,7 @@ public class Dice<T>
         {
             if (itor.getKey() >= value)
                 return itor.getValue();
-        }//for
+        } //for
         
         return null;
     }

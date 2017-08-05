@@ -70,7 +70,8 @@ public class PropertyTransformerFactory
      *             {@link com.aionemu.commons.configuration.PropertyTransformer}
      */
     @SuppressWarnings("rawtypes")
-    public static PropertyTransformer newTransformer(Class clazzToTransform, Class<? extends PropertyTransformer> tc) throws TransformationException
+    public static PropertyTransformer newTransformer(Class clazzToTransform,
+        Class<? extends PropertyTransformer> tc) throws TransformationException
     {
         
         // Just a hack, we can't set null to annotation value

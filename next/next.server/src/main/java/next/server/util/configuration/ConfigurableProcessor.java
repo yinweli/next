@@ -186,7 +186,8 @@ public class ConfigurableProcessor
     
     /**
      * This method is responsible for receiving field value.<br>
-     * It tries to load property by key, if not found - it uses default value.<br>
+     * It tries to load property by key, if not found - it uses default
+     * value.<br>
      * Transformation is done using
      * {@link com.aionemu.commons.configuration.PropertyTransformerFactory}
      *
@@ -223,8 +224,8 @@ public class ConfigurableProcessor
             }
         }
         
-        PropertyTransformer<?> pt = PropertyTransformerFactory.newTransformer(field.getType(), property
-            .propertyTransformer());
+        PropertyTransformer<?> pt = PropertyTransformerFactory
+            .newTransformer(field.getType(), property.propertyTransformer());
         return pt.transform(value, field);
     }
     

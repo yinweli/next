@@ -69,7 +69,8 @@ public class Cache<K, D>
      * @param cacheSource 快取來源物件
      * @throws Exception
      */
-    public synchronized void initialize(String name, long millisecondOfSave, CacheSource<K, D> cacheSource) throws Exception
+    public synchronized void initialize(String name, long millisecondOfSave,
+        CacheSource<K, D> cacheSource) throws Exception
     {
         if (cacheScheduled == null)
             throw new Exception("cacheScheduled is null");
@@ -110,7 +111,7 @@ public class Cache<K, D>
         {
             caches.put(key, data);
             timers.put(key, new CacheTimer(millisecondOfSave));
-        }//if
+        } //if
         
         return data;
     }
@@ -176,14 +177,14 @@ public class Cache<K, D>
         {
             if (itor.getValue().timesUp())
                 removeItems.add(itor.getKey());
-        }//for
+        } //for
         
         for (K itor : removeItems)
         {
             cacheSource.save(itor, caches.get(itor));
             caches.remove(itor);
             timers.remove(itor);
-        }//for
+        } //for
         
         if (removeItems.isEmpty() == false)
             log.info("cache [" + name + "] count=" + caches.size() + ", remove items=" + removeItems.size());

@@ -40,8 +40,7 @@ import next.server.util.configuration.TransformationException;
  * definition of enum, for instance:
  * <p/>
  * 
- * < * pre>
- * enum{ FILE, URL }
+ * < * pre> enum{ FILE, URL }
  * </pre>
  * <p/>
  * will be parsed with string "FILE" but not "file".
