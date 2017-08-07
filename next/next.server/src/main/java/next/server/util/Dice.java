@@ -59,4 +59,16 @@ public class Dice<T>
     {
         return max;
     }
+    
+    /**
+     * <pre>
+     * 取得是否為空
+     * </pre>
+     * 
+     * @return true表示為空, false則否
+     */
+    public boolean isEmpty()
+    {
+        return dices.isEmpty();
+    }
 }
