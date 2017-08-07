@@ -1,4 +1,4 @@
-package next.server.util.dice;
+package next.server.util;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -39,12 +39,24 @@ public class Dice<T>
      */
     public T roll(int value)
     {
-        for (Map.Entry<Integer, T> itor : dices.entrySet())
-        {
-            if (itor.getKey() >= value)
-                return itor.getValue();
-        } //for
-        
-        return null;
+        return dices
+            .entrySet()
+            .stream()
+            .filter(itor -> itor.getKey() >= value)
+            .map(itor -> itor.getValue())
+            .findFirst()
+            .orElse(null);
+    }
+    
+    /**
+     * <pre>
+     * 取得骰子最大值
+     * </pre>
+     * 
+     * @return 骰子最大值
+     */
+    public int getMax()
+    {
+        return max;
     }
 }
