@@ -55,7 +55,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>rd "$(ProjectDir)bin\Unity $(ConfigurationName)\Addon" /s /q
-mkdir "$(ProjectDir)bin\Unity $(ConfigurationName)\Addon\FouridStudio\Next.Net\Plugins\"
-copy "$(TargetDir)*.*" "$(ProjectDir)bin\Unity $(ConfigurationName)\Addon\FouridStudio\Next.Net\Plugins\*.*" /y</PostBuildEvent>
+mkdir "$(ProjectDir)bin\Unity $(ConfigurationName)\Addon\FouridStudio\Next.Client\Plugins\"
+copy "$(TargetDir)*.*" "$(ProjectDir)bin\Unity $(ConfigurationName)\Addon\FouridStudio\Next.Client\Plugins\*.*" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>
