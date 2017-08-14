@@ -22,7 +22,6 @@ namespace FouridStudio
         public int port = 0; // 要連線的埠號
         public int readLength = 8192; // 每次從Socket讀取的長度
         public bool tcpNoDelay = true; // 是否關閉Nagle演算法
-        public bool dns = false; // 是否要使用Dns
         public BaseHandler handler = null; // 封包處理物件
 
         private TcpClient client = null;
@@ -77,27 +76,18 @@ namespace FouridStudio
             if (handler == null)
                 throw new Exception("handler null");
 
-            IPAddress address = null;
+            IPHostEntry iphostEntry = Dns.GetHostEntry(ip); // 經由dns來取得網路位址
 
-            if (dns)
-            {
-                IPAddress[] addressList = Dns.GetHostAddresses(ip); // 經由dns來取得網路位址
+            if (iphostEntry == null)
+                throw new Exception("dns failed, data null");
 
-                if (addressList.Length <= 0)
-                    throw new Exception("dns failed");
-
-                address = addressList[0];
-            }
-            else
-                address = IPAddress.Parse(ip);
-
-            if (address == null)
-                throw new Exception("ip address null");
+            if (iphostEntry.AddressList.Length <= 0)
+                throw new Exception("dns failed, data empty");
 
             client = new TcpClient();
 
             client.NoDelay = tcpNoDelay; // 設定客戶端
-            client.Connect(address, port); // 連線到伺服器
+            client.Connect(iphostEntry.AddressList[0], port); // 連線到伺服器
         }
 
         // 封包處理物件
