@@ -5,11 +5,6 @@ import java.util.TreeMap;
 
 public class Dice<T>
 {
-    public interface RandomValue
-    {
-        int rand(int max);
-    }
-    
     /** 骰子內容列表 */
     private Map<Integer, T> dices = new TreeMap<Integer, T>();
     /** 骰子最大值 */
