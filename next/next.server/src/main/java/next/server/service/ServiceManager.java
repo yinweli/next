@@ -29,6 +29,7 @@ import next.server.util.service.ServiceUtil;
  * <code>@ServiceFinish</code>
  *     服務帶有結束函式
  *     伺服器關閉時, 會呼叫結束函式
+ *     關閉指的是使用System.exit函式關閉, 若是直接關閉視窗, 不會觸發服務結束
  *     啟動函式的格式一律為 public static void finish()
  * 最後再度提醒, 服務類別的成員最好都是靜態, 並且要記得這個類別會在多執行緒的環境中執行
  * 
@@ -128,6 +129,15 @@ public class ServiceManager
             else
                 log.info(String.format("%s:ignore initialize", itor.getSimpleName()));
         } //for
+        
+        // 加入服務結束鉤子
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                ServiceManager.finish();
+            }
+        }, "Service shutdown"));
     }
     
     /**
