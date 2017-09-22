@@ -44,4 +44,10 @@ public class TimeValue
     {
         return time;
     }
+    
+    @Override
+    public String toString()
+    {
+        return TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS) + " second";
+    }
 }
