@@ -16,13 +16,9 @@ sysinfo.txt
 /next/.metadata
 /next/.recommenders
 
-/next/next.client/next.client/.vs
-/next/next.client/next.client/bin
-/next/next.client/next.client/obj
-/next/next.client/next.client.unity/.vs
-/next/next.client/next.client.unity/*.csproj
-/next/next.client/next.client.unity/*.sln
-/next/next.client/next.client.unity/*.suo
+/next/next.client/.vs
+/next/next.client/bin
+/next/next.client/obj
 /next/next.net/.classpath
 /next/next.net/.gradle
 /next/next.net/.settings
