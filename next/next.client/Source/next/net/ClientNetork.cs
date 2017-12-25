@@ -94,7 +94,7 @@ namespace FouridStudio
             if (address == null)
                 throw new Exception("ip address null");
 
-            client = new TcpClient();
+            client = new TcpClient(address.AddressFamily);
 
             client.NoDelay = tcpNoDelay; // 設定客戶端
             client.Connect(address, port); // 連線到伺服器
