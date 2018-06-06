@@ -1,0 +1,20 @@
+﻿建立封包處理類別, 此類別必須繼承 HandlerProto.Processor 介面
+    例如:
+        public class ProcessorPacket1 implements Processor
+        {
+            @Override
+            public Class<?> packetClass()
+            {
+                // 回傳封包類別的類別物件
+            }
+            
+            @Override
+            public void onEvent(Connection connection, final Object object) throws Exception
+            {
+                // 封包處理, connection 為客戶端物件, object 為封包物件
+            }
+        }
+        
+把此類別加入封包處理器中
+    例如:
+    handlerProto.addPacketProcessor(new ProcessorPacket1()); // 加入封包處理

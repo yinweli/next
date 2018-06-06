@@ -1,0 +1,15 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "packet.simple";
+option java_package = "packet.simple";
+option java_outer_classname = "SimpleWapper";
+
+message Simple1
+{
+    int64 echoTime = 1;
+}
+
+message Simple2
+{
+    int64 echoTime = 1;
+}
