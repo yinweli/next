@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace next.net
+namespace FouridStudio
 {
     /// <summary>
     /// 以json為基礎的封包處理類別
@@ -172,10 +172,6 @@ namespace next.net
                             return;
 
                         CodedInputStream inputStream = new CodedInputStream(buffer.Data);
-
-                        if (buffer.Length < inputStream.RecursionLimit)
-                            return;
-
                         int jsonLength = inputStream.ReadInt32(); // 取得json長度
                         int headLength = (int)inputStream.Position;
 

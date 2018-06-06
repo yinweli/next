@@ -1,4 +1,4 @@
-﻿namespace next.net
+﻿namespace FouridStudio
 {
     /// <summary>
     /// 基礎封包處理類別

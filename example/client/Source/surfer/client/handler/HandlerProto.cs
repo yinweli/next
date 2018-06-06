@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace next.net
+namespace FouridStudio
 {
     /// <summary>
     ///  以google protobuf為基礎的封包處理類別
@@ -98,10 +98,6 @@ namespace next.net
                             return;
 
                         CodedInputStream inputStream = new CodedInputStream(buffer.Data, 0, buffer.Length);
-
-                        if (buffer.Length < inputStream.RecursionLimit)
-                            return;
-
                         int protoLength = inputStream.ReadInt32(); // 取得proto長度
                         int headLength = (int)inputStream.Position;
 

@@ -1,4 +1,4 @@
-﻿namespace next.net
+﻿namespace FouridStudio
 {
     /// <summary>
     /// json處理介面

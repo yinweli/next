@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace next.net
+namespace FouridStudio
 {
     /// <summary>
     /// 資料緩衝區元件

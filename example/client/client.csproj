@@ -47,25 +47,25 @@
   <ItemGroup>
     <Compile Include="Source\Client.cs" />
     <Compile Include="Source\ClientList.cs" />
-    <Compile Include="Source\next\net\ClientNetork.cs" />
-    <Compile Include="Source\next\net\handler\BaseHandler.cs" />
-    <Compile Include="Source\next\net\handler\HandlerJson.cs" />
-    <Compile Include="Source\next\net\handler\HandlerProto.cs" />
-    <Compile Include="Source\next\net\util.databuffer\DataBuffer.cs" />
-    <Compile Include="Source\next\net\util.json\JsonProcess.cs" />
     <Compile Include="Source\Packet\CorePacket.cs" />
     <Compile Include="Source\Packet\Simple.cs" />
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Reporter.cs" />
+    <Compile Include="Source\surfer\client\ClientNetork.cs" />
+    <Compile Include="Source\surfer\client\handler\BaseHandler.cs" />
+    <Compile Include="Source\surfer\client\handler\HandlerJson.cs" />
+    <Compile Include="Source\surfer\client\handler\HandlerProto.cs" />
+    <Compile Include="Source\surfer\client\util.databuffer\DataBuffer.cs" />
+    <Compile Include="Source\surfer\client\util.json\JsonProcess.cs" />
     <Compile Include="Source\TimeUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Source\next\net\util.proto\Google.Protobuf.dll" />
-    <Content Include="Source\next\net\util.proto\Google.Protobuf.xml" />
+    <Content Include="Source\surfer\client\util.proto\Google.Protobuf.dll" />
+    <Content Include="Source\surfer\client\util.proto\Google.Protobuf.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

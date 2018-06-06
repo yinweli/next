@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 
-namespace next.net
+namespace FouridStudio
 {
     /// <summary>
     /// 客戶端網路類別
@@ -94,7 +94,7 @@ namespace next.net
             if (address == null)
                 throw new Exception("ip address null");
 
-            client = new TcpClient();
+            client = new TcpClient(address.AddressFamily);
 
             client.NoDelay = tcpNoDelay; // 設定客戶端
             client.Connect(address, port); // 連線到伺服器
@@ -108,7 +108,9 @@ namespace next.net
         {
             if (client != null)
             {
-                client.GetStream().Close();
+                if (client.Connected)
+                    client.GetStream().Close();
+
                 client.Close();
                 client = null;
             }//if
