@@ -1,7 +1,0 @@
-{"sourcePath":"D:\\GitProject\\XLSQLiteTest\\source", "targetPath":"D:\\GitProject\\XLSQLiteTest\\new_client_output"}
-
-{"sourceXls":"active.xlsx", "sourceSheet":"Sheet1", "targetDatabase":"dolDB", "targetTable":"active"}
-{"sourceXls":"activeReward.xlsx", "sourceSheet":"Sheet1", "targetDatabase":"dolDB", "targetTable":"activeReward"}
-{"sourceXls":"area.xlsx", "sourceSheet":"Sheet1", "targetDatabase":"dolDB", "targetTable":"area"}
-{"sourceXls":"areaBless.xlsx", "sourceSheet":"Sheet1", "targetDatabase":"dolDB", "targetTable":"areaBless"}
-{"sourceXls":"areaCommand.xlsx", "sourceSheet":"Sheet1", "targetDatabase":"dolDB", "targetTable":"areaCommand"}
