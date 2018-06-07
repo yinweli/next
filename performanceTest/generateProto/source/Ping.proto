@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option csharp_namespace = "packet.ping";
+option java_package = "packet.ping";
+option java_outer_classname = "PingWapper";
+
+message Ping
+{
+    int64 time = 1;
+    int64 period = 2;
+}
+
+message Pong
+{
+    int64 time = 1;
+}
