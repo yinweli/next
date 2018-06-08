@@ -63,3 +63,6 @@ RAM     : 12GB
 
 ### 上限
 當伺服器每10秒收到的ping封包超過43000個, 效能就會開始下降(與客戶端數量無關)  
+
+### AWS監測圖
+![AWS監測圖](https://raw.githubusercontent.com/yinweli/surfer/master/performanceTest/image/AWS%20Monitoring.jpg)
