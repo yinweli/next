@@ -97,7 +97,7 @@ public class ClientUnit
             @Override
             public Class<?> packetClass()
             {
-                return PingWapper.Ping.class;
+                return PingWapper.Pong.class;
             }
             
             @Override

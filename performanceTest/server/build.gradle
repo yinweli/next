@@ -52,3 +52,14 @@ task outputJar(type: Copy, dependsOn: 'outputLib'){
     from "build/libs"
     into "out"
 }
+
+task outputExecuteBat(dependsOn: 'outputJar'){
+	mkdir('out')
+	
+	File batFile = new File("out/executeServer.bat")
+	
+	batFile.createNewFile()
+	batFile << '@echo off\n\n'
+    batFile << 'title PerformanceTest(Server)\n'
+	batFile << 'java -showversion -server -Xmx1024M -jar ' + jar.archiveName
+}

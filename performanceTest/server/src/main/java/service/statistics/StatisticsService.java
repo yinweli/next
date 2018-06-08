@@ -55,9 +55,11 @@ public class StatisticsService
                     totalPeriod = 0;
                 }
                 
+                float avgPing = currentClientCount > 0 ? currentPing / (float) currentClientCount : 0.0f;
+                float avgPeriod = currentPing > 0 ? currentPeriod / (float) currentPing : 0.0f;
+                
                 log.info(String
-                    .format("client=%5d, ping=%8d, period=%8d, avgPing=%4f, avgPeriod=%f", currentClientCount, currentPing, currentPeriod, currentPing /
-                        currentClientCount, currentPeriod / currentPing));
+                    .format("client=%5d, ping=%8d, period=%8d, avgPing=%.2f, avgPeriod=%.2fms", currentClientCount, currentPing, currentPeriod, avgPing, avgPeriod));
             }
         }, 10, 10, TimeUnit.SECONDS);
     }

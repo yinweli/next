@@ -52,6 +52,6 @@ public class ClientUnits
         
         lastTime = currentTime;
         
-        log.info(String.format("connected=%10f", clientUnits.stream().filter(itor -> itor.getConnected()).count()));
+        log.info(String.format("connected=%d", clientUnits.stream().filter(itor -> itor.getConnected()).count()));
     }
 }
