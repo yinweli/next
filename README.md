@@ -30,7 +30,7 @@ surfer的網路函式庫(Java)
 裡面含有java伺服器與java客戶端網路元件  
 
 ### surfer.server
-surfer的伺服器函式庫(Jave)  
+surfer的伺服器函式庫(Java)  
 
 ## 效能測試
 
