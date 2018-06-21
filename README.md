@@ -32,6 +32,14 @@ surfer的網路函式庫(Java)
 ### surfer.server
 surfer的伺服器函式庫(Java)  
 
+## 開發環境
+IDE使用Eclipse Java EE  
+套件管理使用gradle 4.7以上  
+如果在目錄中看到  
+build.gradle 用於填寫專案配置  
+gradleBuild.bat 用於編譯成jar檔案  
+gradleProject.bat 用於設定專案配置  
+
 ## 效能測試
 
 ### 測試方式
